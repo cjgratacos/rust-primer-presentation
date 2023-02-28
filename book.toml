@@ -1,0 +1,7 @@
+[book]
+authors = ["Carlos Gratacos <cjgratacos@gmail.com>"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Rust Primer"
+

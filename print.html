@@ -71,10 +71,12 @@
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
             var html = document.querySelector('html');
-            var sidebar = 'hidden';
+            var sidebar = null;
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
@@ -82,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="rust.html"><strong aria-hidden="true">2.</strong> Rust</a></li><li class="chapter-item expanded "><a href="tooling.html"><strong aria-hidden="true">3.</strong> Tooling</a></li><li class="chapter-item expanded "><a href="crates.html"><strong aria-hidden="true">4.</strong> Crates</a></li><li class="chapter-item expanded "><a href="memory.html"><strong aria-hidden="true">5.</strong> Memory</a></li><li class="chapter-item expanded "><a href="ownership.html"><strong aria-hidden="true">6.</strong> Ownership</a></li><li class="chapter-item expanded "><a href="borrowing.html"><strong aria-hidden="true">7.</strong> Borrowing</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="rust.html"><strong aria-hidden="true">2.</strong> Rust</a></li><li class="chapter-item expanded "><a href="tooling.html"><strong aria-hidden="true">3.</strong> Tooling</a></li><li class="chapter-item expanded "><a href="hello_world.html"><strong aria-hidden="true">4.</strong> Hello World</a></li><li class="chapter-item expanded "><a href="memory.html"><strong aria-hidden="true">5.</strong> Memory</a></li><li class="chapter-item expanded "><a href="ownership_borrowing.html"><strong aria-hidden="true">6.</strong> Ownership & Borrowing</a></li><li class="chapter-item expanded "><a href="concepts.html"><strong aria-hidden="true">7.</strong> Concepts</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -171,8 +173,69 @@
 <li>Rust by example: <a href="https://doc.rust-lang.org/stable/rust-by-example/">https://doc.rust-lang.org/stable/rust-by-example/</a></li>
 <li>Rust Youtube: <a href="https://www.youtube.com/channel/UCaYhcUwRBNscFNUKTjgPFiA">https://www.youtube.com/channel/UCaYhcUwRBNscFNUKTjgPFiA</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><h1 id="borrowing"><a class="header" href="#borrowing">Borrowing</a></h1>
+<h2 id="books-that-i-recommend"><a class="header" href="#books-that-i-recommend">Books that I recommend:</a></h2>
+<ul>
+<li><a href="https://www.amazon.com/Rust-Action-TS-McNamara/dp/1617294551">Rust in Action</a></li>
+<li><a href="https://www.amazon.com/Rust-Programming-Language-2nd/dp/1718503105">The Rust Programming Language, 2nd Edition</a></li>
+<li><a href="https://www.amazon.com/Rust-Rustaceans-Programming-Experienced-Developers/dp/1718501854">Rust for Rustaceans: Idiomatic Programming for Experienced Developers</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="tooling"><a class="header" href="#tooling">Tooling</a></h1>
+<h2 id="cargo"><a class="header" href="#cargo">Cargo</a></h2>
+<p>Cargo is the Rust package manager.
+Cargo:</p>
+<ul>
+<li>Downloads your Rust package's dependencies.</li>
+<li>Compiles your packages.</li>
+<li>Makes distributable packages.</li>
+<li>Uploads them to crates.io (the Rust community’s package registry)</li>
+</ul>
+<p>Example of commads:</p>
+<pre><code class="language-sh"># Create project
+$ cargo new hello_world
 
+# Build project
+$ cargo build
+
+# Run project
+$ cargo run
+
+# Test project
+$ cargo test
+
+</code></pre>
+<h2 id="cratesio"><a class="header" href="#cratesio">Crates.io</a></h2>
+<p>The community's rust package (create) registry.
+<a href="https://crates.io/">https://crates.io/</a></p>
+<h2 id="docsrs"><a class="header" href="#docsrs">Docs.rs</a></h2>
+<p>The community's open source documentation for crates.
+<a href="https://docs.rs/">https://docs.rs/</a></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="hello-world"><a class="header" href="#hello-world">Hello World</a></h1>
+<p>Like any other Programing language, the first step of learning is how to do a Hello world.</p>
+<pre><code class="language-sh">$ cargo new hello_world
+$ cd hello_world
+
+</code></pre>
+<p>The project structure:</p>
+<pre><code class="language-sh">.
+├── Cargo.toml
+└── src
+    └── main.rs
+
+</code></pre>
+<pre><code class="language-sh">$ cargo run
+   Compiling hello_world v0.1.0
+    Finished dev [unoptimized + debuginfo] target(s) in 0.17s
+     Running `target/debug/hello_world`
+Hello, world!
+
+</code></pre>
+<pre><pre class="playground"><code class="language-rust">// ./src/main.rs
+fn main() {
+    println!(&quot;Hello, world!&quot;);
+}
+</code></pre></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="memory"><a class="header" href="#memory">Memory</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">

@@ -11,3 +11,7 @@ Installing: [https://www.rust-lang.org/learn/get-started](https://www.rust-lang.
 - Rust by example: [https://doc.rust-lang.org/stable/rust-by-example/](https://doc.rust-lang.org/stable/rust-by-example/)
 - Rust Youtube: [https://www.youtube.com/channel/UCaYhcUwRBNscFNUKTjgPFiA](https://www.youtube.com/channel/UCaYhcUwRBNscFNUKTjgPFiA)
 
+## Books that I recommend:
+- [Rust in Action](https://www.amazon.com/Rust-Action-TS-McNamara/dp/1617294551)
+- [The Rust Programming Language, 2nd Edition](https://www.amazon.com/Rust-Programming-Language-2nd/dp/1718503105)
+- [Rust for Rustaceans: Idiomatic Programming for Experienced Developers](https://www.amazon.com/Rust-Rustaceans-Programming-Experienced-Developers/dp/1718501854)

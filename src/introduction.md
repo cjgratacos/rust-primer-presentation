@@ -1,5 +1,7 @@
 # Rust Primer
 
+![Ferris!](./imgs/rustacean-orig-noshadow.svg)
+
 ## What is Rust?
 
 According to Wikipedia, Rust is a:

@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="rust.html"><strong aria-hidden="true">2.</strong> Rust</a></li><li class="chapter-item expanded "><a href="tooling.html"><strong aria-hidden="true">3.</strong> Tooling</a></li><li class="chapter-item expanded "><a href="hello_world.html"><strong aria-hidden="true">4.</strong> Hello World</a></li><li class="chapter-item expanded "><a href="memory.html"><strong aria-hidden="true">5.</strong> Memory</a></li><li class="chapter-item expanded "><a href="ownership_borrowing.html"><strong aria-hidden="true">6.</strong> Ownership & Borrowing</a></li><li class="chapter-item expanded "><a href="concepts.html" class="active"><strong aria-hidden="true">7.</strong> Concepts</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="rust.html"><strong aria-hidden="true">2.</strong> Rust</a></li><li class="chapter-item expanded "><a href="tooling.html"><strong aria-hidden="true">3.</strong> Tooling</a></li><li class="chapter-item expanded "><a href="hello_world.html"><strong aria-hidden="true">4.</strong> Hello World</a></li><li class="chapter-item expanded "><a href="concepts.html" class="active"><strong aria-hidden="true">5.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="ownership_borrowing.html"><strong aria-hidden="true">6.</strong> Ownership & Borrowing</a></li><li class="chapter-item expanded "><a href="memory.html"><strong aria-hidden="true">7.</strong> Memory</a></li><li class="chapter-item expanded "><a href="structs.html"><strong aria-hidden="true">8.</strong> Structs</a></li><li class="chapter-item expanded "><a href="enums_and_patterns.html"><strong aria-hidden="true">9.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="traits_generics_lifetime.html"><strong aria-hidden="true">10.</strong> Traits, Generics and Lifetime</a></li><li class="chapter-item expanded "><a href="functional_features.html"><strong aria-hidden="true">11.</strong> Functional Language Features</a></li><li class="chapter-item expanded "><a href="collections.html"><strong aria-hidden="true">12.</strong> Collections</a></li><li class="chapter-item expanded "><a href="errors.html"><strong aria-hidden="true">13.</strong> Error Handling</a></li><li class="chapter-item expanded "><a href="smart_pointer.html"><strong aria-hidden="true">14.</strong> Smart Pointer</a></li><li class="chapter-item expanded "><a href="macros.html"><strong aria-hidden="true">15.</strong> Macros</a></li><li class="chapter-item expanded "><a href="tests.html"><strong aria-hidden="true">16.</strong> Tests</a></li><li class="chapter-item expanded "><a href="module_crates_packages.html"><strong aria-hidden="true">17.</strong> Module, Crated and Packages</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -144,15 +144,314 @@
 
                 <div id="content" class="content">
                     <main>
-                        
+                        <h1 id="concepts"><a class="header" href="#concepts">Concepts</a></h1>
+<h2 id="variables-and-mutability"><a class="header" href="#variables-and-mutability">Variables and Mutability</a></h2>
+<ul>
+<li>By default in Rust all variables are immutable unless explicitly configured.</li>
+<li>Immutable variables cannot be changed onced created.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust should_panic editable">fn main() {
+    let x = 5;
+    println!(&quot;The value of x is: {x}&quot;);
+    x = 6;
+    println!(&quot;The value of x is: {x}&quot;);
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    let mut x = 5;
+    println!(&quot;The value of x is: {x}&quot;);
+    x = 6;
+    println!(&quot;The value of x is: {x}&quot;);
+}</code></pre></pre>
+<h2 id="constants"><a class="header" href="#constants">Constants</a></h2>
+<ul>
+<li>No mut.</li>
+<li>Always immutable.</li>
+<li>Use <code>const</code> keyword.</li>
+<li>Type must be annotated.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
+
+<span class="boring">}</span></code></pre></pre>
+<h2 id="shadowing"><a class="header" href="#shadowing">Shadowing</a></h2>
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    let x = 5;
+
+    let x = x + 1;
+
+    {
+        let x = x * 2;
+        println!(&quot;The value of x in the inner scope is: {x}&quot;);
+    }
+
+    println!(&quot;The value of x is: {x}&quot;);
+}</code></pre></pre>
+<h2 id="data-types"><a class="header" href="#data-types">Data Types</a></h2>
+<ul>
+<li>Integer Types:
+<ul>
+<li>8 bit: i8,u8</li>
+<li>16 bit: i16,u16</li>
+<li>32 bit: i32,u32</li>
+<li>64 bit: i64,u64</li>
+<li>128 bit: i128,u128</li>
+<li>arch: isize, usize</li>
+</ul>
+</li>
+<li>Integer Literal:
+<ul>
+<li>Decimal: 98_222</li>
+<li>Hex: 0xff</li>
+<li>Octal: 0o77</li>
+<li>Binary: 0b1111_0000</li>
+<li>Byte (u8 only): b'A'</li>
+</ul>
+</li>
+<li>Floating Point Types:
+<ul>
+<li>32 bit: f32</li>
+<li>64 bit: f64</li>
+<li>128 bit: f128</li>
+<li>arch: fsize</li>
+</ul>
+</li>
+<li>Boolean Types:
+<ul>
+<li>true, false</li>
+</ul>
+</li>
+<li>Character Types:
+<ul>
+<li>Default: UTF-8 encoded</li>
+</ul>
+</li>
+<li>Compound Types:
+<ul>
+<li>Tuple Type: <code>let tup: (i32, f64, u8) = (500, 6.4, 1);</code></li>
+<li>Array Type: <code>let a = [1, 2, 3, 4, 5];</code></li>
+</ul>
+</li>
+<li>Numeric Operations:</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // addition
+    let sum = 5 + 10;
+
+    // subtraction
+    let difference = 95.5 - 4.3;
+
+    // multiplication
+    let product = 4 * 30;
+
+    // division
+    let quotient = 56.7 / 32.2;
+    let truncated = -5 / 3; // Results in -1
+
+    // remainder
+    let remainder = 43 % 5;
+}</code></pre></pre>
+<h2 id="functions"><a class="header" href="#functions">Functions</a></h2>
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    println!(&quot;Hello, world!&quot;);
+
+    another_function();
+}
+
+fn another_function() {
+    println!(&quot;Another function.&quot;);
+}</code></pre></pre>
+<h3 id="parameters"><a class="header" href="#parameters">Parameters</a></h3>
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    print_labeled_measurement(5, 'h');
+}
+
+fn print_labeled_measurement(value: i32, unit_label: char) {
+    println!(&quot;The measurement is: {value}{unit_label}&quot;);
+}</code></pre></pre>
+<h3 id="functions-with-return-value"><a class="header" href="#functions-with-return-value">Functions with Return Value</a></h3>
+<pre><pre class="playground"><code class="language-rust editable">fn five() -&gt; i32 {
+    5
+}
+
+fn main() {
+    let x = five();
+
+    println!(&quot;The value of x is: {x}&quot;);
+}</code></pre></pre>
+<h2 id="comments"><a class="header" href="#comments">Comments</a></h2>
+<pre><pre class="playground"><code class="language-rust editable">// This is a comment
+/** This is a comment **/
+/// This is a special comment that gets used for documentation</code></pre></pre>
+<h2 id="control-flow"><a class="header" href="#control-flow">Control Flow</a></h2>
+<h3 id="if-expression"><a class="header" href="#if-expression">If expression</a></h3>
+<ul>
+<li>Rust has <code>if expressions</code></li>
+<li>Rust <code>if</code> evaluations expect a <code>bool</code>, and integers will not be casted to bool.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust editable">// If example
+fn main() {
+    let number = 3;
+
+    if number &lt; 5 {
+        println!(&quot;condition was true&quot;);
+    } else {
+        println!(&quot;condition was false&quot;);
+    }
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust should_panic editable">// If bool requirement
+fn main() {
+    let number = 3;
+
+    if number {
+        println!(&quot;number was three&quot;);
+    }
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust editable">// If-else example
+fn main() {
+    let number = 6;
+
+    if number % 4 == 0 {
+        println!(&quot;number is divisible by 4&quot;);
+    } else if number % 3 == 0 {
+        println!(&quot;number is divisible by 3&quot;);
+    } else if number % 2 == 0 {
+        println!(&quot;number is divisible by 2&quot;);
+    } else {
+        println!(&quot;number is not divisible by 4, 3, or 2&quot;);
+    }
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust editable">// If expression example
+fn main() {
+    let condition = true;
+    let number = if condition { 5 } else { 6 };
+
+    println!(&quot;The value of number is: {number}&quot;);
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust should_panic editable">// If expression all blocs should return the same value
+fn main() {
+    let condition = true;
+
+    let number = if condition { 5 } else { &quot;six&quot; };
+
+    println!(&quot;The value of number is: {number}&quot;);
+}</code></pre></pre>
+<h3 id="loops"><a class="header" href="#loops">Loops</a></h3>
+<ul>
+<li>Rust has loops.</li>
+<li>Loops can be expressions.</li>
+<li>It has <code>loop</code> for infinite loop.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    loop {
+        println!(&quot;again!&quot;);
+    }
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let mut counter = 0;
+
+    let result = loop {
+        counter += 1;
+
+        if counter == 10 {
+            break counter * 2;
+        }
+    };
+
+    println!(&quot;The result is {result}&quot;);
+}</code></pre></pre>
+<ul>
+<li>It has <code>while</code> for predicate loop.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let top = 10;
+    let mut counter = 0;
+    while counter &lt; top {
+	println!(&quot;Counter: {counter}&quot;);
+	counter += 1;
+    }
+}
+</code></pre></pre>
+<ul>
+<li>It has <code>for</code> for iterator loop.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let list = [0,1,2,3,4,5,6,7,8,9];
+    for element in list {
+	println!(&quot;Element: {element}&quot;);
+    }
+}
+</code></pre></pre>
+<ul>
+<li>It has <code>break</code>, <code>label</code>, <code>continue</code> on blocks.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let mut count = 0;
+    'counting_up: loop {
+        println!(&quot;count = {count}&quot;);
+        let mut remaining = 10;
+
+        loop {
+            println!(&quot;remaining = {remaining}&quot;);
+            if remaining == 9 {
+                break;
+            }
+            if count == 2 {
+                break 'counting_up;
+            }
+            remaining -= 1;
+        }
+
+        count += 1;
+    }
+    println!(&quot;End count = {count}&quot;);
+}
+</code></pre></pre>
+<h3 id="match-expression"><a class="header" href="#match-expression">Match Expression</a></h3>
+<ul>
+<li>Rust has <code>match expressions</code></li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let x = true;
+
+    let result = match x {
+	true =&gt; &quot;It is True&quot;,
+	false =&gt; &quot;It is False&quot;,
+    };
+
+    println!(&quot;Result: {result}&quot;);
+}</code></pre></pre>
+<h2 id="notes"><a class="header" href="#notes">Notes</a></h2>
+<ul>
+<li>Rust contains both expressions and statements as a language. Example:</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let y = {
+        let x = 3;
+        x + 1
+    }; // Expression
+
+    println!(&quot;The value of y is: {y}&quot;);
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let y = 4; // Statement
+    println!(&quot;The value of y is: {y}&quot;);
+}</code></pre></pre>
+<ul>
+<li>Rust like any other language has reserve keywors, to learn more about the go here: <a href="https://doc.rust-lang.org/book/appendix-01-keywords.html">Keywords</a>.</li>
+</ul>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="ownership_borrowing.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="hello_world.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
+                            <a rel="next" href="ownership_borrowing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -160,10 +459,13 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="ownership_borrowing.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="hello_world.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
+                    <a rel="next" href="ownership_borrowing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>
@@ -175,6 +477,11 @@
             window.playground_copyable = true;
         </script>
 
+        <script src="ace.js"></script>
+        <script src="editor.js"></script>
+        <script src="mode-rust.js"></script>
+        <script src="theme-dawn.js"></script>
+        <script src="theme-tomorrow_night.js"></script>
 
         <script src="elasticlunr.min.js"></script>
         <script src="mark.min.js"></script>

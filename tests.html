@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Ownership &amp; Borrowing - Rust Primer</title>
+        <title>Tests - Rust Primer</title>
 
 
         <!-- Custom HTML head -->
@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="rust.html"><strong aria-hidden="true">2.</strong> Rust</a></li><li class="chapter-item expanded "><a href="tooling.html"><strong aria-hidden="true">3.</strong> Tooling</a></li><li class="chapter-item expanded "><a href="hello_world.html"><strong aria-hidden="true">4.</strong> Hello World</a></li><li class="chapter-item expanded "><a href="concepts.html"><strong aria-hidden="true">5.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="ownership_borrowing.html" class="active"><strong aria-hidden="true">6.</strong> Ownership & Borrowing</a></li><li class="chapter-item expanded "><a href="memory.html"><strong aria-hidden="true">7.</strong> Memory</a></li><li class="chapter-item expanded "><a href="structs.html"><strong aria-hidden="true">8.</strong> Structs</a></li><li class="chapter-item expanded "><a href="enums_and_patterns.html"><strong aria-hidden="true">9.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="traits_generics_lifetime.html"><strong aria-hidden="true">10.</strong> Traits, Generics and Lifetime</a></li><li class="chapter-item expanded "><a href="functional_features.html"><strong aria-hidden="true">11.</strong> Functional Language Features</a></li><li class="chapter-item expanded "><a href="collections.html"><strong aria-hidden="true">12.</strong> Collections</a></li><li class="chapter-item expanded "><a href="errors.html"><strong aria-hidden="true">13.</strong> Error Handling</a></li><li class="chapter-item expanded "><a href="smart_pointer.html"><strong aria-hidden="true">14.</strong> Smart Pointer</a></li><li class="chapter-item expanded "><a href="macros.html"><strong aria-hidden="true">15.</strong> Macros</a></li><li class="chapter-item expanded "><a href="tests.html"><strong aria-hidden="true">16.</strong> Tests</a></li><li class="chapter-item expanded "><a href="module_crates_packages.html"><strong aria-hidden="true">17.</strong> Module, Crated and Packages</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="rust.html"><strong aria-hidden="true">2.</strong> Rust</a></li><li class="chapter-item expanded "><a href="tooling.html"><strong aria-hidden="true">3.</strong> Tooling</a></li><li class="chapter-item expanded "><a href="hello_world.html"><strong aria-hidden="true">4.</strong> Hello World</a></li><li class="chapter-item expanded "><a href="concepts.html"><strong aria-hidden="true">5.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="ownership_borrowing.html"><strong aria-hidden="true">6.</strong> Ownership & Borrowing</a></li><li class="chapter-item expanded "><a href="memory.html"><strong aria-hidden="true">7.</strong> Memory</a></li><li class="chapter-item expanded "><a href="structs.html"><strong aria-hidden="true">8.</strong> Structs</a></li><li class="chapter-item expanded "><a href="enums_and_patterns.html"><strong aria-hidden="true">9.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="traits_generics_lifetime.html"><strong aria-hidden="true">10.</strong> Traits, Generics and Lifetime</a></li><li class="chapter-item expanded "><a href="functional_features.html"><strong aria-hidden="true">11.</strong> Functional Language Features</a></li><li class="chapter-item expanded "><a href="collections.html"><strong aria-hidden="true">12.</strong> Collections</a></li><li class="chapter-item expanded "><a href="errors.html"><strong aria-hidden="true">13.</strong> Error Handling</a></li><li class="chapter-item expanded "><a href="smart_pointer.html"><strong aria-hidden="true">14.</strong> Smart Pointer</a></li><li class="chapter-item expanded "><a href="macros.html"><strong aria-hidden="true">15.</strong> Macros</a></li><li class="chapter-item expanded "><a href="tests.html" class="active"><strong aria-hidden="true">16.</strong> Tests</a></li><li class="chapter-item expanded "><a href="module_crates_packages.html"><strong aria-hidden="true">17.</strong> Module, Crated and Packages</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -144,115 +144,17 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="ownership-and-borrowing"><a class="header" href="#ownership-and-borrowing">Ownership and Borrowing</a></h1>
-<ul>
-<li>Ownership and Borrowing are one of the core concepts that makes Rust unique.</li>
-<li>Thanks to this concepts, Rust handles all of the memory management (allocation and deallocation) for the user with a guarantee that no data races will occur.</li>
-</ul>
-<h2 id="ownership"><a class="header" href="#ownership">Ownership</a></h2>
-<ul>
-<li>A set of rules that govern how a Rust program manages memory</li>
-<li>The rules are:
-<ul>
-<li>Each value in Rust has an owner.</li>
-<li>There can only be one owner at a time.</li>
-<li>When the owner goes out of scope, the value will be dropped.</li>
-</ul>
-</li>
-</ul>
-<p>Examples:</p>
-<pre><pre class="playground"><code class="language-rust should_panic"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>let x = &quot;Something&quot;.to_string();
-let y = x; // Ownership of String &quot;Something&quot; is given to variable y.
-println!(&quot;x: {}&quot;, x); // This will fail because x no longer is owner of &quot;Something&quot;.
-
-<span class="boring">}</span></code></pre></pre>
-<pre><pre class="playground"><code class="language-rust should_panic"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span> {                      // s is not valid here, it’s not yet declared
-    let s = &quot;hello&quot;;   // s is valid from this point forward
-
-    // do stuff with s
-}                      // this scope is now over, and s is no longer valid
-println!(&quot;s: {}&quot;, s); // This will fail because s is no longer in scope.
-<span class="boring">}</span></code></pre></pre>
-<pre><pre class="playground"><code class="language-rust should_panic editable">
-fn something(x: String) {
-    println!(&quot;x: {}&quot;, x);
-}
-
-fn main() {
-    let y = &quot;something&quot;.to_string();
-    something(y); // y ownership is given to the function something.
-    println!(&quot;y: {}&quot;, y); // This will fail because y no longer is owner of &quot;something&quot;.
-}
-</code></pre></pre>
-<ul>
-<li>As you can see Rust handled the allocation and deallocation of the variables thanks to the ownership system.</li>
-</ul>
-<h2 id="references-and-borrowing"><a class="header" href="#references-and-borrowing">References and Borrowing</a></h2>
-<ul>
-<li>A set of rules that govern how a Rust shares data.</li>
-<li>The rules are:
-<ul>
-<li>A value can be shared with the following rules:
-<ul>
-<li>At any given time, you can have either one mutable reference or any number of immutable references.</li>
-<li>References must always be valid.</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="immutable-references"><a class="header" href="#immutable-references">Immutable References</a></h3>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
-    let s1 = &quot;hello&quot;.to_string();
-
-    let len = calculate_length(&amp;s1);
-
-    println!(&quot;The length of '{}' is {}.&quot;, s1, len);
-}
-
-fn calculate_length(s: &amp;String) -&gt; usize {
-    s.len()
-}</code></pre></pre>
-<p><img src="./imgs/trpl04-05.svg" alt="Memory" /></p>
-<h3 id="mutable-references"><a class="header" href="#mutable-references">Mutable References</a></h3>
-<pre><pre class="playground"><code class="language-rust editable">fn main() {
-    let mut s = String::from(&quot;hello&quot;);
-
-    change(&amp;mut s);
-}
-
-fn change(some_string: &amp;mut String) {
-    some_string.push_str(&quot;, world&quot;);
-}
-</code></pre></pre>
-<pre><pre class="playground"><code class="language-rust should_panic editable">    let mut s = String::from(&quot;hello&quot;);
-
-    let r1 = &amp;mut s;
-    let r2 = &amp;mut s;
-
-    println!(&quot;{}, {}&quot;, r1, r2);</code></pre></pre>
-<pre><pre class="playground"><code class="language-rust should_panic editable">    let mut s = String::from(&quot;hello&quot;);
-
-    let r1 = &amp;s; // no problem
-    let r2 = &amp;s; // no problem
-    let r3 = &amp;mut s; // BIG PROBLEM
-
-    println!(&quot;{}, {}, and {}&quot;, r1, r2, r3);
-</code></pre></pre>
+                        <h1 id="tests"><a class="header" href="#tests">Tests</a></h1>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="concepts.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="macros.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="memory.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="module_crates_packages.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -262,11 +164,11 @@ fn change(some_string: &amp;mut String) {
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="concepts.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="macros.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="memory.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="module_crates_packages.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

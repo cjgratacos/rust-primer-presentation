@@ -84,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="rust.html"><strong aria-hidden="true">2.</strong> Rust</a></li><li class="chapter-item expanded "><a href="tooling.html"><strong aria-hidden="true">3.</strong> Tooling</a></li><li class="chapter-item expanded "><a href="hello_world.html"><strong aria-hidden="true">4.</strong> Hello World</a></li><li class="chapter-item expanded "><a href="memory.html"><strong aria-hidden="true">5.</strong> Memory</a></li><li class="chapter-item expanded "><a href="ownership_borrowing.html"><strong aria-hidden="true">6.</strong> Ownership & Borrowing</a></li><li class="chapter-item expanded "><a href="concepts.html"><strong aria-hidden="true">7.</strong> Concepts</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="rust.html"><strong aria-hidden="true">2.</strong> Rust</a></li><li class="chapter-item expanded "><a href="tooling.html"><strong aria-hidden="true">3.</strong> Tooling</a></li><li class="chapter-item expanded "><a href="hello_world.html"><strong aria-hidden="true">4.</strong> Hello World</a></li><li class="chapter-item expanded "><a href="concepts.html"><strong aria-hidden="true">5.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="ownership_borrowing.html"><strong aria-hidden="true">6.</strong> Ownership & Borrowing</a></li><li class="chapter-item expanded "><a href="memory.html"><strong aria-hidden="true">7.</strong> Memory</a></li><li class="chapter-item expanded "><a href="structs.html"><strong aria-hidden="true">8.</strong> Structs</a></li><li class="chapter-item expanded "><a href="enums_and_patterns.html"><strong aria-hidden="true">9.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="traits_generics_lifetime.html"><strong aria-hidden="true">10.</strong> Traits, Generics and Lifetime</a></li><li class="chapter-item expanded "><a href="functional_features.html"><strong aria-hidden="true">11.</strong> Functional Language Features</a></li><li class="chapter-item expanded "><a href="collections.html"><strong aria-hidden="true">12.</strong> Collections</a></li><li class="chapter-item expanded "><a href="errors.html"><strong aria-hidden="true">13.</strong> Error Handling</a></li><li class="chapter-item expanded "><a href="smart_pointer.html"><strong aria-hidden="true">14.</strong> Smart Pointer</a></li><li class="chapter-item expanded "><a href="macros.html"><strong aria-hidden="true">15.</strong> Macros</a></li><li class="chapter-item expanded "><a href="tests.html"><strong aria-hidden="true">16.</strong> Tests</a></li><li class="chapter-item expanded "><a href="module_crates_packages.html"><strong aria-hidden="true">17.</strong> Module, Crated and Packages</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -235,9 +235,982 @@ fn main() {
     println!(&quot;Hello, world!&quot;);
 }
 </code></pre></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="concepts"><a class="header" href="#concepts">Concepts</a></h1>
+<h2 id="variables-and-mutability"><a class="header" href="#variables-and-mutability">Variables and Mutability</a></h2>
+<ul>
+<li>By default in Rust all variables are immutable unless explicitly configured.</li>
+<li>Immutable variables cannot be changed onced created.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust should_panic editable">fn main() {
+    let x = 5;
+    println!(&quot;The value of x is: {x}&quot;);
+    x = 6;
+    println!(&quot;The value of x is: {x}&quot;);
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    let mut x = 5;
+    println!(&quot;The value of x is: {x}&quot;);
+    x = 6;
+    println!(&quot;The value of x is: {x}&quot;);
+}</code></pre></pre>
+<h2 id="constants"><a class="header" href="#constants">Constants</a></h2>
+<ul>
+<li>No mut.</li>
+<li>Always immutable.</li>
+<li>Use <code>const</code> keyword.</li>
+<li>Type must be annotated.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
+
+<span class="boring">}</span></code></pre></pre>
+<h2 id="shadowing"><a class="header" href="#shadowing">Shadowing</a></h2>
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    let x = 5;
+
+    let x = x + 1;
+
+    {
+        let x = x * 2;
+        println!(&quot;The value of x in the inner scope is: {x}&quot;);
+    }
+
+    println!(&quot;The value of x is: {x}&quot;);
+}</code></pre></pre>
+<h2 id="data-types"><a class="header" href="#data-types">Data Types</a></h2>
+<ul>
+<li>Integer Types:
+<ul>
+<li>8 bit: i8,u8</li>
+<li>16 bit: i16,u16</li>
+<li>32 bit: i32,u32</li>
+<li>64 bit: i64,u64</li>
+<li>128 bit: i128,u128</li>
+<li>arch: isize, usize</li>
+</ul>
+</li>
+<li>Integer Literal:
+<ul>
+<li>Decimal: 98_222</li>
+<li>Hex: 0xff</li>
+<li>Octal: 0o77</li>
+<li>Binary: 0b1111_0000</li>
+<li>Byte (u8 only): b'A'</li>
+</ul>
+</li>
+<li>Floating Point Types:
+<ul>
+<li>32 bit: f32</li>
+<li>64 bit: f64</li>
+<li>128 bit: f128</li>
+<li>arch: fsize</li>
+</ul>
+</li>
+<li>Boolean Types:
+<ul>
+<li>true, false</li>
+</ul>
+</li>
+<li>Character Types:
+<ul>
+<li>Default: UTF-8 encoded</li>
+</ul>
+</li>
+<li>Compound Types:
+<ul>
+<li>Tuple Type: <code>let tup: (i32, f64, u8) = (500, 6.4, 1);</code></li>
+<li>Array Type: <code>let a = [1, 2, 3, 4, 5];</code></li>
+</ul>
+</li>
+<li>Numeric Operations:</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    // addition
+    let sum = 5 + 10;
+
+    // subtraction
+    let difference = 95.5 - 4.3;
+
+    // multiplication
+    let product = 4 * 30;
+
+    // division
+    let quotient = 56.7 / 32.2;
+    let truncated = -5 / 3; // Results in -1
+
+    // remainder
+    let remainder = 43 % 5;
+}</code></pre></pre>
+<h2 id="functions"><a class="header" href="#functions">Functions</a></h2>
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    println!(&quot;Hello, world!&quot;);
+
+    another_function();
+}
+
+fn another_function() {
+    println!(&quot;Another function.&quot;);
+}</code></pre></pre>
+<h3 id="parameters"><a class="header" href="#parameters">Parameters</a></h3>
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    print_labeled_measurement(5, 'h');
+}
+
+fn print_labeled_measurement(value: i32, unit_label: char) {
+    println!(&quot;The measurement is: {value}{unit_label}&quot;);
+}</code></pre></pre>
+<h3 id="functions-with-return-value"><a class="header" href="#functions-with-return-value">Functions with Return Value</a></h3>
+<pre><pre class="playground"><code class="language-rust editable">fn five() -&gt; i32 {
+    5
+}
+
+fn main() {
+    let x = five();
+
+    println!(&quot;The value of x is: {x}&quot;);
+}</code></pre></pre>
+<h2 id="comments"><a class="header" href="#comments">Comments</a></h2>
+<pre><pre class="playground"><code class="language-rust editable">// This is a comment
+/** This is a comment **/
+/// This is a special comment that gets used for documentation</code></pre></pre>
+<h2 id="control-flow"><a class="header" href="#control-flow">Control Flow</a></h2>
+<h3 id="if-expression"><a class="header" href="#if-expression">If expression</a></h3>
+<ul>
+<li>Rust has <code>if expressions</code></li>
+<li>Rust <code>if</code> evaluations expect a <code>bool</code>, and integers will not be casted to bool.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust editable">// If example
+fn main() {
+    let number = 3;
+
+    if number &lt; 5 {
+        println!(&quot;condition was true&quot;);
+    } else {
+        println!(&quot;condition was false&quot;);
+    }
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust should_panic editable">// If bool requirement
+fn main() {
+    let number = 3;
+
+    if number {
+        println!(&quot;number was three&quot;);
+    }
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust editable">// If-else example
+fn main() {
+    let number = 6;
+
+    if number % 4 == 0 {
+        println!(&quot;number is divisible by 4&quot;);
+    } else if number % 3 == 0 {
+        println!(&quot;number is divisible by 3&quot;);
+    } else if number % 2 == 0 {
+        println!(&quot;number is divisible by 2&quot;);
+    } else {
+        println!(&quot;number is not divisible by 4, 3, or 2&quot;);
+    }
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust editable">// If expression example
+fn main() {
+    let condition = true;
+    let number = if condition { 5 } else { 6 };
+
+    println!(&quot;The value of number is: {number}&quot;);
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust should_panic editable">// If expression all blocs should return the same value
+fn main() {
+    let condition = true;
+
+    let number = if condition { 5 } else { &quot;six&quot; };
+
+    println!(&quot;The value of number is: {number}&quot;);
+}</code></pre></pre>
+<h3 id="loops"><a class="header" href="#loops">Loops</a></h3>
+<ul>
+<li>Rust has loops.</li>
+<li>Loops can be expressions.</li>
+<li>It has <code>loop</code> for infinite loop.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    loop {
+        println!(&quot;again!&quot;);
+    }
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let mut counter = 0;
+
+    let result = loop {
+        counter += 1;
+
+        if counter == 10 {
+            break counter * 2;
+        }
+    };
+
+    println!(&quot;The result is {result}&quot;);
+}</code></pre></pre>
+<ul>
+<li>It has <code>while</code> for predicate loop.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let top = 10;
+    let mut counter = 0;
+    while counter &lt; top {
+	println!(&quot;Counter: {counter}&quot;);
+	counter += 1;
+    }
+}
+</code></pre></pre>
+<ul>
+<li>It has <code>for</code> for iterator loop.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let list = [0,1,2,3,4,5,6,7,8,9];
+    for element in list {
+	println!(&quot;Element: {element}&quot;);
+    }
+}
+</code></pre></pre>
+<ul>
+<li>It has <code>break</code>, <code>label</code>, <code>continue</code> on blocks.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let mut count = 0;
+    'counting_up: loop {
+        println!(&quot;count = {count}&quot;);
+        let mut remaining = 10;
+
+        loop {
+            println!(&quot;remaining = {remaining}&quot;);
+            if remaining == 9 {
+                break;
+            }
+            if count == 2 {
+                break 'counting_up;
+            }
+            remaining -= 1;
+        }
+
+        count += 1;
+    }
+    println!(&quot;End count = {count}&quot;);
+}
+</code></pre></pre>
+<h3 id="match-expression"><a class="header" href="#match-expression">Match Expression</a></h3>
+<ul>
+<li>Rust has <code>match expressions</code></li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let x = true;
+
+    let result = match x {
+	true =&gt; &quot;It is True&quot;,
+	false =&gt; &quot;It is False&quot;,
+    };
+
+    println!(&quot;Result: {result}&quot;);
+}</code></pre></pre>
+<h2 id="notes"><a class="header" href="#notes">Notes</a></h2>
+<ul>
+<li>Rust contains both expressions and statements as a language. Example:</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let y = {
+        let x = 3;
+        x + 1
+    }; // Expression
+
+    println!(&quot;The value of y is: {y}&quot;);
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let y = 4; // Statement
+    println!(&quot;The value of y is: {y}&quot;);
+}</code></pre></pre>
+<ul>
+<li>Rust like any other language has reserve keywors, to learn more about the go here: <a href="https://doc.rust-lang.org/book/appendix-01-keywords.html">Keywords</a>.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="ownership-and-borrowing"><a class="header" href="#ownership-and-borrowing">Ownership and Borrowing</a></h1>
+<ul>
+<li>Ownership and Borrowing are one of the core concepts that makes Rust unique.</li>
+<li>Thanks to this concepts, Rust handles all of the memory management (allocation and deallocation) for the user with a guarantee that no data races will occur.</li>
+</ul>
+<h2 id="ownership"><a class="header" href="#ownership">Ownership</a></h2>
+<ul>
+<li>A set of rules that govern how a Rust program manages memory</li>
+<li>The rules are:
+<ul>
+<li>Each value in Rust has an owner.</li>
+<li>There can only be one owner at a time.</li>
+<li>When the owner goes out of scope, the value will be dropped.</li>
+</ul>
+</li>
+</ul>
+<p>Examples:</p>
+<pre><pre class="playground"><code class="language-rust should_panic"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let x = &quot;Something&quot;.to_string();
+let y = x; // Ownership of String &quot;Something&quot; is given to variable y.
+println!(&quot;x: {}&quot;, x); // This will fail because x no longer is owner of &quot;Something&quot;.
+
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust should_panic"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span> {                      // s is not valid here, it’s not yet declared
+    let s = &quot;hello&quot;;   // s is valid from this point forward
+
+    // do stuff with s
+}                      // this scope is now over, and s is no longer valid
+println!(&quot;s: {}&quot;, s); // This will fail because s is no longer in scope.
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust should_panic editable">
+fn something(x: String) {
+    println!(&quot;x: {}&quot;, x);
+}
+
+fn main() {
+    let y = &quot;something&quot;.to_string();
+    something(y); // y ownership is given to the function something.
+    println!(&quot;y: {}&quot;, y); // This will fail because y no longer is owner of &quot;something&quot;.
+}
+</code></pre></pre>
+<ul>
+<li>As you can see Rust handled the allocation and deallocation of the variables thanks to the ownership system.</li>
+</ul>
+<h2 id="references-and-borrowing"><a class="header" href="#references-and-borrowing">References and Borrowing</a></h2>
+<ul>
+<li>A set of rules that govern how a Rust shares data.</li>
+<li>The rules are:
+<ul>
+<li>A value can be shared with the following rules:
+<ul>
+<li>At any given time, you can have either one mutable reference or any number of immutable references.</li>
+<li>References must always be valid.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="immutable-references"><a class="header" href="#immutable-references">Immutable References</a></h3>
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    let s1 = &quot;hello&quot;.to_string();
+
+    let len = calculate_length(&amp;s1);
+
+    println!(&quot;The length of '{}' is {}.&quot;, s1, len);
+}
+
+fn calculate_length(s: &amp;String) -&gt; usize {
+    s.len()
+}</code></pre></pre>
+<p><img src="./imgs/trpl04-05.svg" alt="Memory" /></p>
+<h3 id="mutable-references"><a class="header" href="#mutable-references">Mutable References</a></h3>
+<pre><pre class="playground"><code class="language-rust editable">fn main() {
+    let mut s = String::from(&quot;hello&quot;);
+
+    change(&amp;mut s);
+}
+
+fn change(some_string: &amp;mut String) {
+    some_string.push_str(&quot;, world&quot;);
+}
+</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust should_panic editable">    let mut s = String::from(&quot;hello&quot;);
+
+    let r1 = &amp;mut s;
+    let r2 = &amp;mut s;
+
+    println!(&quot;{}, {}&quot;, r1, r2);</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust should_panic editable">    let mut s = String::from(&quot;hello&quot;);
+
+    let r1 = &amp;s; // no problem
+    let r2 = &amp;s; // no problem
+    let r3 = &amp;mut s; // BIG PROBLEM
+
+    println!(&quot;{}, {}, and {}&quot;, r1, r2, r3);
+</code></pre></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="memory"><a class="header" href="#memory">Memory</a></h1>
+<h3 id="the-stack"><a class="header" href="#the-stack">The Stack</a></h3>
+<ul>
+<li>The stack is very fast, and is where memory is allocated in Rust by default. </li>
+<li>But the allocation is local to a function call, and is limited in size.</li>
+</ul>
+<p>Example:</p>
+<pre><pre class="playground"><code class="language-rust">fn foo() {
+    println!(&quot;This is foo!&quot;);
+}
+
+fn main() {
+    let x = 42; // This will be allocated in the stack.
+    foo(); // This function stack will be allocated in the stack.
+}
+</code></pre></pre>
+<h3 id="the-heap"><a class="header" href="#the-heap">The Heap</a></h3>
+<ul>
+<li>The heap, on the other hand, is slower, and is explicitly allocated by your program.</li>
+<li>But it’s effectively unlimited in size, and is globally accessible. </li>
+<li>Note this meaning of heap, which allocates arbitrary-sized blocks of memory in arbitrary order.</li>
+<li>Values can be boxed (allocated on the heap) by creating a Box<T>. </li>
+<li>A box is a smart pointer to a heap allocated value of type T. </li>
+<li>When a box goes out of scope, its destructor is called, the inner object is destroyed, and the memory on the heap is freed.</li>
+</ul>
+<p>Boxed values can be dereferenced using the * operator; this removes one layer of indirection.</p>
+<p>Example:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let x = Box::new(5); // This will be allocated in the heap.
+    let func: Box&lt;dyn Fn(usize)&gt; = Box::new(|x| {
+        println!(&quot;x: {}&quot;, x);
+    }); // This anonymous function will be stored in the heap.
+
+    func(5); // The function will be run from the heap by a reference on the stack.
+}
+</code></pre></pre>
 <script defer class="speakerdeck-embed" data-id="760299e421d649f985d5b04952dcc4f2" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
-<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="structs"><a class="header" href="#structs">Structs</a></h1>
+<ul>
+<li>A struct, or structure, is a custom data type that lets you package together and name multiple related values that make up a meaningful group.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">// Example of struct with name fields
+struct User {
+    active: bool,
+    username: String,
+    email: String,
+    sign_in_count: u64,
+}
+
+fn build_user(email: String, username: String) -&gt; User {
+    User {
+        active: true,
+        username: username,
+        // Example of field init
+        email,
+        sign_in_count: 1,
+    }
+}
+
+fn main() {
+    let user1 = User {
+        active: true,
+        username: String::from(&quot;someusername123&quot;),
+        email: String::from(&quot;someone@example.com&quot;),
+        sign_in_count: 1,
+    };
+
+    let mut user2 = User {
+        active: true,
+        username: String::from(&quot;someusername456&quot;),
+        email: String::from(&quot;someone@example.com&quot;),
+        sign_in_count: 1,
+    };
+
+    user2.email = String::from(&quot;anotheremail@example.com&quot;);
+
+    let user3 = build_user(String::from(&quot;someemail@example.com&quot;). String::from(&quot;ThisIsMe&quot;));
+
+    // Creating Instances from Other Instances with Struct Update Syntax
+    let user4 = User {
+        username: String::from(&quot;someusername789&quot;),
+        ..user3
+    }
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">// Example of structs with anon fields
+struct Color(i32, i32, i32);
+struct Point(i32, i32, i32);
+
+fn main() {
+    let black = Color(0, 0, 0);
+    let origin = Point(0, 0, 0);
+}
+</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">// Example of Unit Like structs
+struct AlwaysEqual;
+
+fn main() {
+    let subject = AlwaysEqual;
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">// Example of defining methods
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle {
+    pub fn new(width: u32, height: u32)-&gt; Self {
+        Rectangle {
+            width,
+            height
+        }
+    }
+
+    pub fn area(&amp;self) -&gt; u32 {
+        self.width * self.height
+    }
+}
+
+impl Rectangle {
+    pub fn is_square(&amp;self) -&gt; bool {
+        self.width == self.height
+    }
+}
+
+fn main() {
+    let rec = Rectangle::new(2,3);
+    let area = rec.area();
+    let is_square = rec.is_square();
+    println!(&quot;Rectangle area: {area}&quot;);
+    println!(&quot;Rectangle is square: {is_square}&quot;);
+}</code></pre></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="enums-and-patterns"><a class="header" href="#enums-and-patterns">Enums and Patterns</a></h1>
+<ul>
+<li>Enums allow you to define a type by enumerating its possible variants.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">//Example simple enums
+enum IpAddrKind {
+    V4,
+    V6,
+}
+
+fn route(ip_kind: IpAddrKind) {
+    // do something
+}
+
+fn main() {
+    let four = IpAddrKind::V4;
+    let six = IpAddrKind::V6;
+
+    route(IpAddrKind::V4);
+    route(IpAddrKind::V6);
+}
+</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//Example enums with structs
+
+enum IpAddrKind {
+    V4,
+    V6,
+}
+
+struct IpAddr {
+    kind: IpAddrKind,
+    address: String,
+}
+
+let home = IpAddr {
+    kind: IpAddrKind::V4,
+    address: String::from(&quot;127.0.0.1&quot;),
+};
+
+let loopback = IpAddr {
+    kind: IpAddrKind::V6,
+    address: String::from(&quot;::1&quot;),
+};
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Example of enums with fields
+enum IpAddr {
+    V4(u8, u8, u8, u8),
+    V6(String),
+}
+
+let home = IpAddr::V4(127, 0, 0, 1);
+
+let loopback = IpAddr::V6(String::from(&quot;::1&quot;));
+
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Example of multiple enums definitions
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+
+impl Message {
+    fn call(&amp;self) {
+        // method body would be defined here
+    }
+}
+
+let m = Message::Write(String::from(&quot;hello&quot;));
+m.call();
+
+<span class="boring">}</span></code></pre></pre>
+<h2 id="patterns"><a class="header" href="#patterns">Patterns</a></h2>
+<ul>
+<li>Rust has an extremely powerful control flow construct called match that allows you to compare a value against a series of patterns and then execute code based on which pattern matches.</li>
+<li>Matches are exhaustive</li>
+<li>Matches can have a catch-all pattern</li>
+<li>Matches are expressions</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(Debug)] // so we can inspect the state in a minute
+enum UsState {
+    Alabama,
+    Alaska,
+    // --snip--
+}
+
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter(UsState),
+}
+
+fn value_in_cents(coin: Coin) -&gt; u8 {
+    let result = match coin {
+        Coin::Penny =&gt; 1,
+        Coin::Nickel =&gt; 5,
+        Coin::Dime =&gt; 10,
+        Coin::Quarter(state) =&gt; {
+            println!(&quot;State quarter from {:?}!&quot;, state);
+            25
+        },
+        // Catch all pattern
+        _ =&gt; 0
+    }
+
+    println!(&quot;Result: {result}&quot;);
+    result
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="rust-doesnt-have-null-it-has-enums"><a class="header" href="#rust-doesnt-have-null-it-has-enums">Rust doesn't have null, it has enums</a></h2>
+<ul>
+<li>Rust doesn't have null, it uses the enum system to express something or nothing.</li>
+<li>This simple concept solves the 1 trillion dollar mistake.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum Option&lt;T&gt; {
+    None,
+    Some(T),
+}
+<span class="boring">}</span></code></pre></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="traits-generics-and-lifetime"><a class="header" href="#traits-generics-and-lifetime">Traits, Generics and Lifetime</a></h1>
+<h2 id="generics"><a class="header" href="#generics">Generics</a></h2>
+<pre><pre class="playground"><code class="language-rust">fn largest_i32(list: &amp;[i32]) -&gt; &amp;i32 {
+    let mut largest = &amp;list[0];
+
+    for item in list {
+        if item &gt; largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+
+fn largest_char(list: &amp;[char]) -&gt; &amp;char {
+    let mut largest = &amp;list[0];
+
+    for item in list {
+        if item &gt; largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+
+fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+
+    let result = largest_i32(&amp;number_list);
+    println!(&quot;The largest number is {}&quot;, result);
+
+    let char_list = vec!['y', 'm', 'a', 'q'];
+
+    let result = largest_char(&amp;char_list);
+    println!(&quot;The largest char is {}&quot;, result);
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">
+// fn largest&lt;T: Ord&gt;(list: &amp;[T]) -&gt; Option&lt;&amp;T&gt; {
+//     list.iter().max()
+// }
+
+fn largest&lt;T:PartialOrd&gt;(list: &amp;[T]) -&gt; &amp;T {
+    let mut largest = &amp;list[0];
+    list.
+
+    for item in list {
+        if item &gt; largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+
+fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+
+    let result = largest(&amp;number_list);
+    println!(&quot;The largest number is {}&quot;, result);
+
+    let char_list = vec!['y', 'm', 'a', 'q'];
+
+    let result = largest(&amp;char_list);
+    println!(&quot;The largest char is {}&quot;, result);
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Generic on functions
+fn something&lt;T&gt;(ty:T) {}
+
+// Generic on enums
+enum Option&lt;T&gt; {
+    Some(T),
+    None,
+}
+enum Result&lt;T,E&gt; {
+    Ok(T),
+    Err(E)
+}
+
+// Generic on structs
+struct Point&lt;T, U&gt; {
+    x: T,
+    y: U,
+}
+
+// Generic in methods definitions
+impl&lt;T&gt; Point&lt;T&gt; {
+    fn x(&amp;self) -&gt; &amp;T {
+        &amp;self.x
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">// Example of generic on each variable
+struct Point&lt;X1, Y1&gt; {
+    x: X1,
+    y: Y1,
+}
+
+impl&lt;X1, Y1&gt; Point&lt;X1, Y1&gt; {
+    fn mixup&lt;X2, Y2&gt;(self, other: Point&lt;X2, Y2&gt;) -&gt; Point&lt;X1, Y2&gt; {
+        Point {
+            x: self.x,
+            y: other.y,
+        }
+    }
+}
+
+fn main() {
+    let p1 = Point { x: 5, y: 10.4 };
+    let p2 = Point { x: &quot;Hello&quot;, y: 'c' };
+
+    let p3 = p1.mixup(p2);
+
+    println!(&quot;p3.x = {}, p3.y = {}&quot;, p3.x, p3.y);
+}</code></pre></pre>
+<h2 id="traits"><a class="header" href="#traits">Traits</a></h2>
+<ul>
+<li>Traits are like interfaces in other languages, but more powerful.</li>
+<li>A trait defines functionality a particular type has and can share with other types. </li>
+<li>We can use traits to define shared behavior in an abstract way.</li>
+<li>We can use trait bounds to specify that a generic type can be any type that has certain behavior.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait Summary {
+    fn summarize(&amp;self) -&gt; String;
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">pub trait Summary {
+    fn summarize(&amp;self) -&gt; String {
+    // With default implementation
+        String::from(&quot;(Read more...)&quot;)
+    }
+}
+
+pub struct NewsArticle {
+    pub headline: String,
+    pub location: String,
+    pub author: String,
+    pub content: String,
+}
+
+impl Summary for NewsArticle {
+    fn summarize(&amp;self) -&gt; String {
+        format!(&quot;{}, by {} ({})&quot;, self.headline, self.author, self.location)
+    }
+}
+
+pub struct Tweet {
+    pub username: String,
+    pub content: String,
+    pub reply: bool,
+    pub retweet: bool,
+}
+
+impl Summary for Tweet {
+    fn summarize(&amp;self) -&gt; String {
+        format!(&quot;{}: {}&quot;, self.username, self.content)
+    }
+}
+
+fn main() {
+    let tweet = Tweet {
+        username: String::from(&quot;horse_ebooks&quot;),
+        content: String::from(
+            &quot;of course, as you probably already know, people&quot;,
+        ),
+        reply: false,
+        retweet: false,
+    };
+
+    println!(&quot;1 new tweet: {}&quot;, tweet.summarize());
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Example of traits depending on internal methods
+pub trait Summary {
+    fn summarize_author(&amp;self) -&gt; String;
+
+    fn summarize(&amp;self) -&gt; String {
+        format!(&quot;(Read more from {}...)&quot;, self.summarize_author())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Example of traits as parameters
+pub fn notify(item: &amp;impl Summary) {
+    println!(&quot;Breaking news! {}&quot;, item.summarize());
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Example of trait bound syntax
+pub fn notify&lt;T: Summary&gt;(item: &amp;T) {
+    println!(&quot;Breaking news! {}&quot;, item.summarize());
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Example of trait bounds with where clause
+fn some_function&lt;T, U&gt;(t: &amp;T, u: &amp;U) -&gt; i32
+where
+    T: Display + Clone,
+    U: Clone + Debug,
+{
+    42
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Example of returning types that implement traits
+fn returns_summarizable() -&gt; impl Summary {
+    Tweet {
+        username: String::from(&quot;horse_ebooks&quot;),
+        content: String::from(
+            &quot;of course, as you probably already know, people&quot;,
+        ),
+        reply: false,
+        retweet: false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Complex example of using trait bounds to conditionally Implement Methods
+use std::fmt::Display;
+
+struct Pair&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+impl&lt;T&gt; Pair&lt;T&gt; {
+    fn new(x: T, y: T) -&gt; Self {
+        Self { x, y }
+    }
+}
+
+impl&lt;T: Display + PartialOrd&gt; Pair&lt;T&gt; {
+    fn cmp_display(&amp;self) {
+        if self.x &gt;= self.y {
+            println!(&quot;The largest member is x = {}&quot;, self.x);
+        } else {
+            println!(&quot;The largest member is y = {}&quot;, self.y);
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="lifetimes"><a class="header" href="#lifetimes">Lifetimes</a></h2>
+<ul>
+<li>Lifetimes is another kind of generics that it is used under the hood.</li>
+<li>It is used by the rust compiler and borrow checker to validate the ownership,reference and borrowing rules.</li>
+<li>Rust anotates scopes and variables with a given lifetime.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust should_panic">fn main() {
+    let r;                // ---------+-- 'a
+                          //          |
+    {                     //          |
+        let x = 5;        // -+-- 'b  |
+        r = &amp;x;           //  |       |
+    }                     // -+       |
+                          //          |
+    println!(&quot;r: {}&quot;, r); //          |
+}                         // ---------+
+
+fn main() {
+    let x = 5;            // ----------+-- 'b
+                          //           |
+    let r = &amp;x;           // --+-- 'a  |
+                          //   |       |
+    println!(&quot;r: {}&quot;, r); //   |       |
+                          // --+       |
+}                         // ----------+</code></pre></pre>
+<h3 id="lifetime-annotation-syntax"><a class="header" href="#lifetime-annotation-syntax">Lifetime annotation syntax</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>&amp;i32        // a reference
+&amp;'a i32     // a reference with an explicit lifetime
+&amp;'a mut i32 // a mutable reference with an explicit lifetime
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// lifetime annotations in function signatures
+fn longest&lt;'a&gt;(x: &amp;'a str, y: &amp;'a str) -&gt; &amp;'a str {
+    if x.len() &gt; y.len() {
+        x
+    } else {
+        y
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">// lifetime annotations in struct definitions
+struct ImportantExcerpt&lt;'a&gt; {
+    part: &amp;'a str,
+}
+
+fn main() {
+    let novel = String::from(&quot;Call me Ishmael. Some years ago...&quot;);
+    let first_sentence = novel.split('.').next().expect(&quot;Could not find a '.'&quot;);
+    let i = ImportantExcerpt {
+        part: first_sentence,
+    };
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// the static lifetime
+let s: &amp;'static str = &quot;I have a static lifetime.&quot;;
+<span class="boring">}</span></code></pre></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="functional-language-features"><a class="header" href="#functional-language-features">Functional Language Features</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="collections"><a class="header" href="#collections">Collections</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="error-handling"><a class="header" href="#error-handling">Error Handling</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="smart-pointer"><a class="header" href="#smart-pointer">Smart Pointer</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="macros"><a class="header" href="#macros">Macros</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="tests"><a class="header" href="#tests">Tests</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="module-crated-and-packages"><a class="header" href="#module-crated-and-packages">Module, Crated and Packages</a></h1>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
@@ -262,6 +1235,11 @@ fn main() {
             window.playground_copyable = true;
         </script>
 
+        <script src="ace.js"></script>
+        <script src="editor.js"></script>
+        <script src="mode-rust.js"></script>
+        <script src="theme-dawn.js"></script>
+        <script src="theme-tomorrow_night.js"></script>
 
         <script src="elasticlunr.min.js"></script>
         <script src="mark.min.js"></script>

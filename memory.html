@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="rust.html"><strong aria-hidden="true">2.</strong> Rust</a></li><li class="chapter-item expanded "><a href="tooling.html"><strong aria-hidden="true">3.</strong> Tooling</a></li><li class="chapter-item expanded "><a href="hello_world.html"><strong aria-hidden="true">4.</strong> Hello World</a></li><li class="chapter-item expanded "><a href="memory.html" class="active"><strong aria-hidden="true">5.</strong> Memory</a></li><li class="chapter-item expanded "><a href="ownership_borrowing.html"><strong aria-hidden="true">6.</strong> Ownership & Borrowing</a></li><li class="chapter-item expanded "><a href="concepts.html"><strong aria-hidden="true">7.</strong> Concepts</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="rust.html"><strong aria-hidden="true">2.</strong> Rust</a></li><li class="chapter-item expanded "><a href="tooling.html"><strong aria-hidden="true">3.</strong> Tooling</a></li><li class="chapter-item expanded "><a href="hello_world.html"><strong aria-hidden="true">4.</strong> Hello World</a></li><li class="chapter-item expanded "><a href="concepts.html"><strong aria-hidden="true">5.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="ownership_borrowing.html"><strong aria-hidden="true">6.</strong> Ownership & Borrowing</a></li><li class="chapter-item expanded "><a href="memory.html" class="active"><strong aria-hidden="true">7.</strong> Memory</a></li><li class="chapter-item expanded "><a href="structs.html"><strong aria-hidden="true">8.</strong> Structs</a></li><li class="chapter-item expanded "><a href="enums_and_patterns.html"><strong aria-hidden="true">9.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="traits_generics_lifetime.html"><strong aria-hidden="true">10.</strong> Traits, Generics and Lifetime</a></li><li class="chapter-item expanded "><a href="functional_features.html"><strong aria-hidden="true">11.</strong> Functional Language Features</a></li><li class="chapter-item expanded "><a href="collections.html"><strong aria-hidden="true">12.</strong> Collections</a></li><li class="chapter-item expanded "><a href="errors.html"><strong aria-hidden="true">13.</strong> Error Handling</a></li><li class="chapter-item expanded "><a href="smart_pointer.html"><strong aria-hidden="true">14.</strong> Smart Pointer</a></li><li class="chapter-item expanded "><a href="macros.html"><strong aria-hidden="true">15.</strong> Macros</a></li><li class="chapter-item expanded "><a href="tests.html"><strong aria-hidden="true">16.</strong> Tests</a></li><li class="chapter-item expanded "><a href="module_crates_packages.html"><strong aria-hidden="true">17.</strong> Module, Crated and Packages</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -145,17 +145,52 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="memory"><a class="header" href="#memory">Memory</a></h1>
+<h3 id="the-stack"><a class="header" href="#the-stack">The Stack</a></h3>
+<ul>
+<li>The stack is very fast, and is where memory is allocated in Rust by default. </li>
+<li>But the allocation is local to a function call, and is limited in size.</li>
+</ul>
+<p>Example:</p>
+<pre><pre class="playground"><code class="language-rust">fn foo() {
+    println!(&quot;This is foo!&quot;);
+}
+
+fn main() {
+    let x = 42; // This will be allocated in the stack.
+    foo(); // This function stack will be allocated in the stack.
+}
+</code></pre></pre>
+<h3 id="the-heap"><a class="header" href="#the-heap">The Heap</a></h3>
+<ul>
+<li>The heap, on the other hand, is slower, and is explicitly allocated by your program.</li>
+<li>But it’s effectively unlimited in size, and is globally accessible. </li>
+<li>Note this meaning of heap, which allocates arbitrary-sized blocks of memory in arbitrary order.</li>
+<li>Values can be boxed (allocated on the heap) by creating a Box<T>. </li>
+<li>A box is a smart pointer to a heap allocated value of type T. </li>
+<li>When a box goes out of scope, its destructor is called, the inner object is destroyed, and the memory on the heap is freed.</li>
+</ul>
+<p>Boxed values can be dereferenced using the * operator; this removes one layer of indirection.</p>
+<p>Example:</p>
+<pre><pre class="playground"><code class="language-rust">fn main() {
+    let x = Box::new(5); // This will be allocated in the heap.
+    let func: Box&lt;dyn Fn(usize)&gt; = Box::new(|x| {
+        println!(&quot;x: {}&quot;, x);
+    }); // This anonymous function will be stored in the heap.
+
+    func(5); // The function will be run from the heap by a reference on the stack.
+}
+</code></pre></pre>
 <script defer class="speakerdeck-embed" data-id="760299e421d649f985d5b04952dcc4f2" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="hello_world.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="ownership_borrowing.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="ownership_borrowing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="structs.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -165,11 +200,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="hello_world.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="ownership_borrowing.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="ownership_borrowing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="structs.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
@@ -183,6 +218,11 @@
             window.playground_copyable = true;
         </script>
 
+        <script src="ace.js"></script>
+        <script src="editor.js"></script>
+        <script src="mode-rust.js"></script>
+        <script src="theme-dawn.js"></script>
+        <script src="theme-tomorrow_night.js"></script>
 
         <script src="elasticlunr.min.js"></script>
         <script src="mark.min.js"></script>

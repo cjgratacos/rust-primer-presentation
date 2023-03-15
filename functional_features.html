@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="rust.html"><strong aria-hidden="true">2.</strong> Rust</a></li><li class="chapter-item expanded "><a href="tooling.html"><strong aria-hidden="true">3.</strong> Tooling</a></li><li class="chapter-item expanded "><a href="hello_world.html"><strong aria-hidden="true">4.</strong> Hello World</a></li><li class="chapter-item expanded "><a href="concepts.html"><strong aria-hidden="true">5.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="ownership_borrowing.html"><strong aria-hidden="true">6.</strong> Ownership & Borrowing</a></li><li class="chapter-item expanded "><a href="memory.html"><strong aria-hidden="true">7.</strong> Memory</a></li><li class="chapter-item expanded "><a href="structs.html"><strong aria-hidden="true">8.</strong> Structs</a></li><li class="chapter-item expanded "><a href="enums_and_patterns.html"><strong aria-hidden="true">9.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="traits_generics_lifetime.html"><strong aria-hidden="true">10.</strong> Traits, Generics and Lifetime</a></li><li class="chapter-item expanded "><a href="functional_features.html" class="active"><strong aria-hidden="true">11.</strong> Functional Language Features</a></li><li class="chapter-item expanded "><a href="collections.html"><strong aria-hidden="true">12.</strong> Collections</a></li><li class="chapter-item expanded "><a href="errors.html"><strong aria-hidden="true">13.</strong> Error Handling</a></li><li class="chapter-item expanded "><a href="smart_pointer.html"><strong aria-hidden="true">14.</strong> Smart Pointer</a></li><li class="chapter-item expanded "><a href="macros.html"><strong aria-hidden="true">15.</strong> Macros</a></li><li class="chapter-item expanded "><a href="tests.html"><strong aria-hidden="true">16.</strong> Tests</a></li><li class="chapter-item expanded "><a href="module_crates_packages.html"><strong aria-hidden="true">17.</strong> Module, Crated and Packages</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="rust.html"><strong aria-hidden="true">2.</strong> Rust</a></li><li class="chapter-item expanded "><a href="tooling.html"><strong aria-hidden="true">3.</strong> Tooling</a></li><li class="chapter-item expanded "><a href="hello_world.html"><strong aria-hidden="true">4.</strong> Hello World</a></li><li class="chapter-item expanded "><a href="concepts.html"><strong aria-hidden="true">5.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="ownership_borrowing.html"><strong aria-hidden="true">6.</strong> Ownership & Borrowing</a></li><li class="chapter-item expanded "><a href="memory.html"><strong aria-hidden="true">7.</strong> Memory</a></li><li class="chapter-item expanded "><a href="structs.html"><strong aria-hidden="true">8.</strong> Structs</a></li><li class="chapter-item expanded "><a href="enums_and_patterns.html"><strong aria-hidden="true">9.</strong> Enums and Pattern Matching</a></li><li class="chapter-item expanded "><a href="traits_generics_lifetime.html"><strong aria-hidden="true">10.</strong> Traits, Generics and Lifetime</a></li><li class="chapter-item expanded "><a href="functional_features.html" class="active"><strong aria-hidden="true">11.</strong> Functional Language Features</a></li><li class="chapter-item expanded "><a href="collections.html"><strong aria-hidden="true">12.</strong> Collections</a></li><li class="chapter-item expanded "><a href="errors.html"><strong aria-hidden="true">13.</strong> Error Handling</a></li><li class="chapter-item expanded "><a href="smart_pointer.html"><strong aria-hidden="true">14.</strong> Smart Pointer</a></li><li class="chapter-item expanded "><a href="macros.html"><strong aria-hidden="true">15.</strong> Macros</a></li><li class="chapter-item expanded "><a href="tests.html"><strong aria-hidden="true">16.</strong> Tests</a></li><li class="chapter-item expanded "><a href="module_crates_packages.html"><strong aria-hidden="true">17.</strong> Module, Crates and Packages</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -145,6 +145,196 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="functional-language-features"><a class="header" href="#functional-language-features">Functional Language Features</a></h1>
+<ul>
+<li>Rust language design has taken inspiration from many functional programming languages and techniques.</li>
+<li>This includes <code>closures</code>, treating classes as first class citizen, etc.</li>
+<li>Rust been a zero cost abtraction language gives us the advantage that the high level description or code, doesn't affect performance, more on this later.</li>
+</ul>
+<h2 id="closures"><a class="header" href="#closures">Closures</a></h2>
+<pre><pre class="playground"><code class="language-rust">
+fn sub_one(x:i32) -&gt; i32 {
+    x - 1
+}
+fn main() {
+    // closure that prints a text
+    let print_text = || println!(&quot;Hello, World!&quot;);
+    
+    print_text(); 
+
+    // Closure with parameter
+    let add_one = |x| x + 1;
+    let answer = add_one(41);
+    println!(&quot;The answer to live is {answer}&quot;);
+
+    // Assigning function to variable
+    let operation = sub_one;
+
+    let answer = operation(43);
+    println!(&quot;The answer to live is {answer}&quot;);
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Ways to define a function
+fn  add_one_v1   (x: u32) -&gt; u32 { x + 1 }
+let add_one_v2 = |x: u32| -&gt; u32 { x + 1 };
+let add_one_v3 = |x|             { x + 1 };
+let add_one_v4 = |x|               x + 1  ;
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust should_panic"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Example of code failing because attempting to call a closure whose types are inferred with two different types
+// Need to define type
+let example_closure = |x| x;
+
+let s = example_closure(String::from(&quot;hello&quot;));
+let n = example_closure(5);
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">// Example of capturing reference
+fn main() {
+let list = vec![1, 2, 3];
+println!(&quot;Before defining closure: {:?}&quot;, list);
+
+let only_borrows = || println!(&quot;From closure: {:?}&quot;, list);
+
+println!(&quot;Before calling closure: {:?}&quot;, list);
+only_borrows();
+println!(&quot;After calling closure: {:?}&quot;, list);
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">// Example of capturing mutable reference
+fn main() {
+let mut list = vec![1, 2, 3];
+println!(&quot;Before defining closure: {:?}&quot;, list);
+
+let mut borrows_mutably = || list.push(7);
+
+borrows_mutably();
+println!(&quot;After calling closure: {:?}&quot;, list);
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">// Example of moving ownership
+use std::thread;
+
+fn main() {
+    let list = vec![1, 2, 3];
+    println!(&quot;Before defining closure: {:?}&quot;, list);
+
+    thread::spawn(move || println!(&quot;From thread: {:?}&quot;, list))
+        .join()
+        .unwrap();
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Example of Rust Optional unwrap or else complex moving capture values
+impl&lt;T&gt; Option&lt;T&gt; {
+    pub fn unwrap_or_else&lt;F&gt;(self, f: F) -&gt; T
+    where
+        F: FnOnce() -&gt; T
+    {
+        match self {
+            Some(x) =&gt; x,
+            None =&gt; f(),
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">// Example of Rust list sorting
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let mut list = [
+        Rectangle { width: 10, height: 1 },
+        Rectangle { width: 3, height: 5 },
+        Rectangle { width: 7, height: 12 },
+    ];
+
+    let mut num_sort_operations = 0;
+    list.sort_by_key(|r| {
+        num_sort_operations += 1;
+        r.width
+    });
+    println!(&quot;{:#?}, sorted in {num_sort_operations} operations&quot;, list);
+}</code></pre></pre>
+<h2 id="iterator"><a class="header" href="#iterator">Iterator</a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Example of iterator
+let v1 = vec![1, 2, 3];
+
+let v1_iter = v1.iter();
+
+for val in v1_iter {
+    println!(&quot;Got: {}&quot;, val);
+}
+
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">// Example iterator next
+pub trait Iterator {
+    type Item;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt;;
+
+    // methods with default implementations elided
+}
+
+fn main() {
+    let v1 = vec![1, 2, 3];
+
+    let mut v1_iter = v1.iter();
+
+    assert_eq!(v1_iter.next(), Some(&amp;1));
+    assert_eq!(v1_iter.next(), Some(&amp;2));
+    assert_eq!(v1_iter.next(), Some(&amp;3));
+    assert_eq!(v1_iter.next(), None);
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">// Example of chaining methods that consume iterators
+fn main() {
+    let v1 = vec![1, 2, 3];
+
+    let total: i32 = v1.iter().sum();
+
+    assert_eq!(total, 6);
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">// Example of methods that produce other iterators
+fn main() {
+    let v1: Vec&lt;i32&gt; = vec![1, 2, 3];
+
+    let v2: Vec&lt;_&gt; = v1.iter().map(|x| x + 1).collect();
+
+    assert_eq!(v2, vec![2, 3, 4]);
+}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">fn iterator() -&gt; Vec&lt;i32&gt;{
+    let v1: Vec&lt;i32&gt; = vec![1, 2, 3];
+
+    v1.iter().map(|x| x + 1).collect()
+}
+
+fn transform() -&gt; Vec&lt;i32&gt;{
+    let v1: Vec&lt;i32&gt; = vec![1, 2, 3];
+
+    {
+        let mut result: Vec&lt;_&gt; = Vec::new();
+        let map = |x:i32| x + 1;
+        for v in v1 {
+            result.push(map(v));
+        }
+
+        result
+    }
+}
+
+fn main() {
+    let i = iterator();
+    let t = transform();
+    println!(&quot;Iterator: {:?}&quot;, i);
+    println!(&quot;Transform: {:?}&quot;, t);
+}
+</code></pre></pre>
+<ul>
+<li><a href="https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html">Iterator</a></li>
+</ul>
 
                     </main>
 

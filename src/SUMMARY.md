@@ -16,5 +16,5 @@
 - [Smart Pointer](./smart_pointer.md)
 - [Macros](./macros.md)
 - [Tests](./tests.md)
-- [Module, Crated and Packages](./module_crates_packages.md)
+- [Module, Crates and Packages](./module_crates_packages.md)
 

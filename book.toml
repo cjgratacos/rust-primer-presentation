@@ -5,3 +5,5 @@ multilingual = false
 src = "src"
 title = "Rust Primer"
 
+[output.html.playground]
+editable = true

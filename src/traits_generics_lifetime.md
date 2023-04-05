@@ -47,7 +47,6 @@ fn main() {
 
 fn largest<T:PartialOrd>(list: &[T]) -> &T {
     let mut largest = &list[0];
-    list.
 
     for item in list {
         if item > largest {
